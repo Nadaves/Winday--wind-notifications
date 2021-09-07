@@ -30,15 +30,15 @@ for spot in Spot_names:
     lon = Spots[spot][1]
     
     #call openweather api
-    with urlopen("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,daily,alerts&appid="+ApiKey) as response:
+    with urlopen("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,alerts&appid="+ApiKey) as response:
         source = response.read()
 
     #Turn json code into python object
     data = json.loads(source)
 
     #create a dataframe and drop irrelevant columns
-    df = pd.DataFrame(data['hourly'])
-    df = df.drop(columns=["temp", "feels_like", "pressure", "humidity", "dew_point","uvi", "visibility", "clouds", "pop", "uvi", "weather"])
+    df = pd.DataFrame(data['daily'])
+    df = df.drop(columns=["sunrise", "sunset", "moonrise", "moonset", "moon_phase","temp", "feels_like", "clouds", "pop", "uvi", "weather", "dew_point", "humidity", "pressure"])
 
     #convert kmh into knots
     df['wind_speed'] = 1.852 * df['wind_speed']
@@ -47,7 +47,7 @@ for spot in Spot_names:
 
     #edit columns and date format
     df = df.rename(columns={'dt':'Date', 'wind_speed':'Speed', 'wind_gust':'Gust', 'wind_deg':'Direction'})
-    df["Date"] = df["Date"].dt.strftime("%d/%m/%y, %H:00")
+    df["Date"] = df["Date"].dt.strftime("%d/%m/%y")
     df["Spot"] = spot
 
     #write to csv file
@@ -57,8 +57,9 @@ for spot in Spot_names:
     Spots_df.append(df)
 
 Spots_df = pd.concat(Spots_df)
+Spots_df = Spots_df.drop(columns=['rain'])
 
-Spots_df.to_csv("Hourly.csv")
+print(Spots_df.loc[Spots_df['Speed'] > 15])
 #another method of converting unix time into readable time and date
 # for i in df['dt']:
 #     dt = df['dt'][i]
