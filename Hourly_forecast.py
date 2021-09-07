@@ -13,7 +13,6 @@ import numpy as np
 from seaborn.palettes import color_palette
 sns.set_theme()
 
-
 #key for a spot format: [lat, lon, name]
 Spots = { 
     'Beit_Yanai': ['32.38', '34.86'],
@@ -23,9 +22,7 @@ Spots = {
 }
 
 Spot_names = ['Beit_Yanai', 'Sedot_Yam', 'Eilat', 'Sea_of_galilee']
-
 Spots_df = [] 
-
 
 for spot in Spot_names:
 
@@ -46,7 +43,7 @@ for spot in Spot_names:
     df = df.drop(columns=["temp", "feels_like", "pressure", "humidity", "dew_point","uvi", "visibility", "clouds", "pop", "uvi", "weather"])
 
     #convert kmh into knots
-    df['wind_speed'] = 1.852 * df['wind_speed']
+    df['wind_speed'] = 1.852 * df['wind_speed'] 
     df['wind_gust'] = 1.852 * df['wind_gust']
     df['dt'] = pd.to_datetime(df['dt'],unit='s')
 
@@ -54,9 +51,6 @@ for spot in Spot_names:
     df = df.rename(columns={'dt':'Date', 'wind_speed':'Speed', 'wind_gust':'Gust', 'wind_deg':'Direction'})
     df["Date"] = df["Date"].dt.strftime("%d/%m/%y, %H:00")
     df["Spot"] = spot
-
-    #write to csv file
-    # df.to_csv(spot + '.csv')
 
     #appending new data to DataFrame
     Spots_df.append(df)
@@ -74,7 +68,6 @@ fig = plt.figure()
 ax = fig.add_subplot(1,1,1)  
 
 #Creating seperate plotted lines for each spot:
-
 y1 = Eilat['Speed']
 y2 = Beit_Yanai['Speed']
 y3 = Sedot_Yam['Speed']
@@ -94,8 +87,7 @@ plt.legend()
 today = datetime.today()
 d1 = today.strftime("%d/%m/%y, %H:00")
 plt.title('Two-day Forecast, Generated: ' + d1)
-plt.plot(y6, ls="", marker="*", color='gold', markersize=13)
-
+plt.plot(y6, ls="", marker="*", color='gold', markersize=25)
 
 #Change number of ticks for the X axis:
 ax.xaxis.set_major_locator(mdates.HourLocator(interval=100))
@@ -105,5 +97,4 @@ plt.xticks(rotation='45')
 # plt.grid(color=(191/360,0,255/360))
 
 plt.tight_layout()
-plt.show()
-
+plt.savefig('WindSpeed')
