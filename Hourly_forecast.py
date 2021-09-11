@@ -72,7 +72,7 @@ y1 = Eilat['Speed']
 y2 = Beit_Yanai['Speed']
 y3 = Sedot_Yam['Speed']
 y4 = Sea_of_galilee['Speed']
-y5 = Spots_df[(Spots_df["Speed"] > 16)]
+y5 = Spots_df[(Spots_df["Speed"] > 14)]
 y6 = y5['Speed']
 
 x = Eilat['Date']
