@@ -72,15 +72,23 @@ y1 = Eilat['Speed']
 y2 = Beit_Yanai['Speed']
 y3 = Sedot_Yam['Speed']
 y4 = Sea_of_galilee['Speed']
-y5 = Spots_df[(Spots_df["Speed"] > 14)]
+y5 = Spots_df[(Spots_df["Speed"] > 15)]
 y6 = y5['Speed']
+y7 = Eilat['Gust']
+y8 = Beit_Yanai['Gust']
+y9 = Sedot_Yam['Gust']
+y10 = Sea_of_galilee['Gust']
 
 x = Eilat['Date']
 
-plt.plot(x, y1, label = 'Eilat')
-plt.plot(x, y2, label = "Yanai")
-plt.plot(x, y3, label = 'Caesarea')
-plt.plot(x, y4, label = 'Kineret')
+plt.plot(x, y1, label = 'Eilat', color='b')
+plt.plot(x, y2, label = "Yanai", color='r')
+# plt.plot(x, y3, label = 'Caesarea', color='g')
+# plt.plot(x, y4, label = 'Kineret', color='y')
+plt.plot(x, y7, label = 'Eilat Gust', color='b', linestyle='dashed')
+plt.plot(x, y8, label = "Yanai Gust", color='r', linestyle='dashed')
+# plt.plot(x, y9, label = 'Caesarea Gust', color='g', linestyle='dashed')
+# plt.plot(x, y10, label = 'Kineret Gust', color='y', linestyle='dashed')
 plt.legend()
 
 #Creating the title and above 16Knots markers:
@@ -97,4 +105,4 @@ plt.xticks(rotation='45')
 # plt.grid(color=(191/360,0,255/360))
 
 plt.tight_layout()
-plt.savefig('WindSpeed')
+plt.savefig('WindSpeed', transparent=True)
